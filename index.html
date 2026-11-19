@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>once – dein Assistent, einmal eingerichtet</title>
+  <meta name="description" content="once ist ein persönlicher AI-Assistent, der deine Dienste verbindet. Einmal einrichten, danach läuft alles an einem Ort.">
+  <meta name="theme-color" content="#f4f4f2">
+  <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Zum Inhalt springen</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a class="logo" href="#top" aria-label="once – zum Seitenanfang">once</a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="sr">Menü öffnen</span>
+        <span class="nav__bar nav__bar--a"></span>
+        <span class="nav__bar nav__bar--b"></span>
+      </button>
+
+      <nav class="nav__menu" id="menu" aria-label="Hauptmenü">
+        <ul>
+          <li><a href="#funktionen">Funktionen</a></li>
+          <li><a href="#ueber">Über once</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+        <a class="btn btn--small" href="#kontakt">Get in touch<span class="btn__arrow" aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: Porträt hinter beschlagener Scheibe (Effekt in der Bilddatei, kein CSS-Filter). Navigation und Wortmarke liegen oben auf dem Foto. -->
+    <section class="hero" data-theme="dark" aria-labelledby="hero-title">
+      <picture class="hero__media">
+        <source media="(min-width: 1200px)" srcset="img/hero-wide-1600.jpg 1600w, img/hero-wide-2200.jpg 2200w" sizes="100vw" width="1600" height="754">
+        <source media="(min-width: 768px)" srcset="img/hero-1200.jpg 1200w, img/hero-1550.jpg 1553w" sizes="100vw" width="1200" height="801">
+        <img src="img/hero-800p.jpg" width="800" height="1000" alt="Porträt einer Frau hinter einer beschlagenen Glasscheibe mit Wassertropfen" fetchpriority="high">
+      </picture>
+      <p class="hero__mark" aria-hidden="true">once</p>
+      <div class="wrap grid hero__content">
+        <p class="label hero__label">• Persönlicher Assistent</p>
+        <h1 class="hero__title" id="hero-title">Einmal einrichten.<br>Für alles.</h1>
+        <p class="hero__lead">Ein Assistent, der deine Dienste kennt und verbindet. Du richtest ihn einmal ein, danach arbeitet er dort, wo du ohnehin arbeitest.</p>
+        <div class="hero__action">
+          <a class="btn btn--light" href="#funktionen">Mehr erfahren<span class="btn__arrow btn__arrow--down" aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Funktionen: hell -->
+    <section class="section section--white" id="funktionen" data-theme="light" aria-labelledby="funktionen-title">
+      <div class="wrap grid">
+        <header class="section__head reveal">
+          <p class="label">• Funktionen</p>
+          <h2 class="section__title" id="funktionen-title">Was once für dich tut.</h2>
+        </header>
+        <ol class="features">
+          <li class="feature reveal" style="--i:0">
+            <span class="feature__num">01</span>
+            <h3>Einmal verbinden</h3>
+            <p>Du meldest deine Dienste einmal an. Danach musst du nicht mehr zwischen Apps wechseln.</p>
+          </li>
+          <li class="feature reveal" style="--i:1">
+            <span class="feature__num">02</span>
+            <h3>In deinen Worten fragen</h3>
+            <p>Du sagst, was du brauchst. once sucht, fasst zusammen und bereitet den nächsten Schritt vor.</p>
+          </li>
+          <li class="feature reveal" style="--i:2">
+            <span class="feature__num">03</span>
+            <h3>Du behältst die Kontrolle</h3>
+            <p>Bevor etwas gesendet oder geändert wird, fragt once nach. Du entscheidest.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Über once: hell, zweigeteilt ab 1200 px -->
+    <section class="section" id="ueber" data-theme="light" aria-labelledby="ueber-title">
+      <div class="wrap grid">
+        <header class="section__head section__head--split reveal">
+          <p class="label">• Über once</p>
+          <h2 class="section__title" id="ueber-title">Gute Werkzeuge sind leise.</h2>
+        </header>
+        <div class="about reveal">
+          <p class="about__quote">once soll dir Arbeit abnehmen, nicht neue schaffen: wenige Einstellungen, klare Rückfragen, keine Überraschungen.</p>
+          <p>Gebaut für Privatpersonen und kleine Teams, die ihre Zeit lieber für das Wesentliche nutzen.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Warteliste: hell -->
+    <section class="section section--white" id="warteliste" data-theme="light" aria-labelledby="warteliste-title">
+      <div class="wrap grid">
+        <header class="section__head reveal">
+          <p class="label">• Warteliste</p>
+          <h2 class="section__title" id="warteliste-title">Bald dabei sein.</h2>
+        </header>
+        <p class="soon-block reveal">Die Warteliste öffnet in Kürze.</p>
+        <div class="cta reveal" style="--i:1">
+          <a class="btn btn--cta" href="#kontakt">Get in touch<span class="btn__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Kontakt/Footer: dunkel. Keine Mail/Telefon (Entscheid Lukas 19.11.): Anfragen laufen über Lukas. -->
+  <footer class="footer" id="kontakt" data-theme="dark">
+    <div class="wrap grid">
+      <p class="label footer__label">• Kontakt</p>
+      <p class="footer__big reveal" aria-hidden="true">once</p>
+      <div class="footer__col reveal">
+        <h2 class="footer__title">Kontakt</h2>
+        <p>Anfragen laufen persönlich über Lukas.</p>
+      </div>
+      <div class="footer__col reveal">
+        <h2 class="footer__title">Rechtliches</h2>
+        <ul class="footer__links">
+          <li><a class="link" href="datenschutz.html">Datenschutz</a></li>
+        </ul>
+      </div>
+      <div class="footer__bottom">
+        <p>© <span id="year">2026</span> once</p>
+        <p>Einmal einrichten. Für alles.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
