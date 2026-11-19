@@ -130,10 +130,11 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
   .nav__menu ul a { font-size: .9375rem; font-weight: 500; letter-spacing: 0; padding: .25rem 0; }
 }
 
-/* Hero */
-/* Hero (bis Fassung 8 mit Foto; ab 9b dunkle Fläche, siehe .hero--agent unten).
-   Basiswerte für Wortmarke, Claim und Lead. */
+/* Hero (9g): nur das Glas-Foto und die Wortmarke. Kein Claim, keine Figur.
+   Beschlag, Tropfen und Schlieren stecken in der Bilddatei, kein Effekt per CSS. */
 .hero { position: relative; margin-top: calc(-1 * var(--nav-h) - 1px); background: var(--dark); color: var(--white); overflow: hidden; }
+.hero__media { display: block; }
+.hero__media img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 50%; }
 .hero__mark {
   position: absolute; z-index: 1;
   top: calc(var(--nav-h) + .25rem); left: var(--pad);
@@ -141,19 +142,8 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
   letter-spacing: -.07em; margin: 0 0 0 -.05em; color: var(--white);
   pointer-events: none; user-select: none;
 }
-.hero__content { position: relative; padding-top: 3rem; padding-bottom: 4rem; }
-.hero .label { color: var(--white); }
 .btn--light { background: var(--white); color: var(--dark); }
 .btn--light:hover { background: var(--line); }
-.hero__title {
-  font-size: clamp(3.25rem, 13vw, 11.5rem);
-  font-weight: 700;
-  line-height: .92;
-  letter-spacing: -.055em;
-  margin-bottom: 2.5rem;
-  hyphens: manual;
-}
-.hero__lead { font-size: 1.125rem; line-height: 1.55; color: var(--white); margin-bottom: 2rem; max-width: 34rem; }
 
 /* Abschnitte */
 .section { padding: var(--section-y) 0; background: var(--light); }
@@ -201,24 +191,21 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
 @media (min-width: 768px) {
   :root { --pad: 2rem; --gap: 1.5rem; --section-y: 8rem; }
   .grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .hero__media img { aspect-ratio: 3 / 2; }
   .hero__mark { font-size: min(22vw, 20rem); }
-  .hero__content { padding-top: 4rem; padding-bottom: 5rem; }
-  .hero__lead { grid-column: 1 / span 7; margin-bottom: 0; }
-  .hero__action { grid-column: 9 / -1; justify-self: end; align-self: end; }
   .features { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
   .soon-block { grid-column: 1 / -1; }
   .about { grid-column: 1 / span 10; }
   .footer__col { grid-column: span 6; }
 }
 
-/* Desktop: Über once zweigeteilt */
+/* Desktop: Hero bildschirmhoch, Über once zweigeteilt */
 @media (min-width: 1200px) {
   :root { --pad: 2.5rem; --section-y: 10rem; }
-  .hero { display: flex; align-items: flex-end; min-height: 100vh; }
-  .hero__mark { font-size: min(21vw, 22rem); left: max(var(--pad), calc((100vw - 1360px) / 2 + var(--pad))); }
-  .hero__content { padding-top: 8rem; padding-bottom: 4rem; }
-  .hero__title { grid-column: 1 / span 6; font-size: min(5vw, 5.75rem); margin-bottom: 1.5rem; } /* Claim unten links, endet vor dem Gesicht */
-  .hero__lead { grid-column: 1 / span 5; }
+  .hero { height: 100vh; min-height: 36rem; }
+  .hero__media { position: absolute; inset: 0; }
+  .hero__media img { height: 100%; aspect-ratio: auto; object-position: 50% 40%; }
+  .hero__mark { font-size: min(21vw, 30vh, 22rem); left: max(var(--pad), calc((100vw - 1360px) / 2 + var(--pad))); }
   .section__head--split { grid-column: 1 / span 6; margin-bottom: 0; }
   .about { grid-column: 8 / -1; align-self: end; }
   .soon-block { grid-column: 5 / -1; }
@@ -368,25 +355,28 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
 /* Warteliste und Kontakt sind beide dunkel: feine Linie trennt sie */
 .footer { border-top: 1px solid #3a3a3a; }
 
-/* ---------- Fassung 9: Agent-Figur (ersetzt die Drei-Beispiele-Animation aus 8c) ---------- */
+/* ---------- Agent-Demo (Stand 9g, zusammengeführt aus 9 bis 9f) ----------
+   Abschnitt „Persönlicher Assistent“ (dunkel, #111): Label, Überschrift, Lead, „Mehr erfahren ↓“,
+   darunter die Live-Demo: links die Figur, rechts der Chat zwischen Lukas und once.
+   Ohne Rahmen, Leiste und Kasten. Runde Sprechblasen, Pillen statt Rechtecke. Kein Verlauf, kein Blur.
+   Pause-Knopf bleibt (WCAG 2.2.2: Bewegung länger als 5 s braucht eine Pause). */
+
 /* Dienste nur als Text, keine Logos (Entscheid Lukas 19.11.) */
-.services { grid-column: 1 / -1; margin: 0 0 1.5rem; max-width: 42rem; color: var(--ink); font-size: 1.125rem; line-height: 1.5; }
-.demo { grid-column: 1 / -1; margin: 0 0 4.5rem; border: 1px solid var(--line); background: var(--dark); }
-.demo__bar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; padding: .75rem 1.25rem; border-bottom: 1px solid var(--line); background: var(--light); }
-.demo__status { margin: 0 0 0 auto; font-size: .875rem; color: var(--muted); } /* #555 auf hellem --light 6.8:1; im dunklen Hero siehe .hero__demo .demo__status */
-.demo__name { font-weight: 600; letter-spacing: -.04em; font-size: 1.125rem; color: var(--ink); }
-.demo__ctrl { font: inherit; font-size: .875rem; font-weight: 500; color: var(--ink); background: var(--white); border: 1px solid var(--ink); padding: .4rem .9rem; min-height: 44px; min-width: 44px; cursor: pointer; }
-.demo__ctrl:hover { background: var(--ink); color: var(--white); }
-.demo__ctrl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.services { grid-column: 1 / -1; margin: 0 0 3rem; max-width: 42rem; color: var(--ink); font-size: 1.125rem; line-height: 1.5; }
 
-/* Bühne: dunkel wie die Referenz, Figur weiss darauf. Harte Kanten, keine Verläufe. */
-.stage { display: grid; gap: 1.5rem; padding: 1.75rem 1.25rem; color: var(--white); }
-.stage__agent { display: flex; justify-content: center; }
-.agent { width: 9.5rem; height: 9.5rem; overflow: visible; }
-.stage__talk { display: grid; gap: .875rem; align-content: start; min-width: 0; }
+/* Abschnitt */
+.section--assistent .section__head { margin-bottom: 2rem; }
+.assistent__lead { font-size: 1.125rem; line-height: 1.55; color: var(--white); max-width: 34rem; margin-bottom: 2rem; }
+.assistent__action { margin-bottom: 4rem; }
 
-/* Figur */
-.agent { --tilt: 12deg; }
+/* Demo */
+.demo { grid-column: 1 / -1; margin: 0; max-width: 52rem; color: var(--white); }
+.stage { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: start; gap: 1rem; }
+.stage__agent { display: flex; justify-content: flex-start; padding-top: .25rem; }
+.stage__talk { display: grid; gap: .75rem; align-content: start; min-width: 0; }
+
+/* Figur: weisse Kugel, schräge schwarze Pillen-Augen. Flach, ohne Glanz oder Schatten. */
+.agent { --tilt: 12deg; width: 4.5rem; height: 4.5rem; overflow: visible; }
 .agent__head { transform-box: view-box; transform-origin: 100px 100px; }
 .agent__ball { fill: var(--white); }
 .agent__pill, .agent__lid { fill: var(--dark); }
@@ -403,7 +393,7 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
 /* nachdenklich: rechtes Auge halb zu, Lid als schwarzer Balken (Blick seitlich kommt aus script.js) */
 .agent[data-mood="thinking"] .agent__eye--r .agent__pill { transform: scaleY(.5); }
 .agent[data-mood="thinking"] .agent__eye--r .agent__lid { opacity: 1; }
-/* Rückfrage: Augen etwas grösser, Blick zum Nutzer (Kopfneigung aus script.js) */
+/* Rückfrage: Augen etwas grösser (Kopfneigung aus script.js) */
 .agent[data-mood="ask"] .agent__eye--l { transform: rotate(calc(var(--tilt) * -1)) scale(1.08); }
 .agent[data-mood="ask"] .agent__eye--r { transform: rotate(var(--tilt)) scale(1.08); }
 /* freundlich: Augen werden zu kleinen Bögen */
@@ -411,34 +401,48 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
 .agent[data-mood="friendly"] .agent__pill { opacity: 0; transform: scaleY(.3); }
 .agent[data-mood="friendly"] .agent__smile { opacity: 1; }
 
-/* Sprechblasen, Ladezeile, Dienste (nur Text) */
-.say { margin: 0; padding: .875rem 1rem; border: 1px solid #3a3a3a; line-height: 1.45; }
-.say__who { display: block; font-size: .8125rem; color: #b5b5b5; margin-bottom: .25rem; } /* auf #111 9.2:1 (Basisregel #555 gilt nur auf hell) */
-.say__text { margin: 0; font-size: 1.0625rem; color: var(--white); }
-.say--user { background: var(--white); border-color: var(--white); }
-.say--user .say__who { color: var(--muted); }
+/* Chat: Lukas rechts (weiss), once links (#262626). Nur runde Formen. */
+.say { margin: 0; padding: .7rem 1rem; border-radius: 1.25rem; line-height: 1.45; max-width: 26rem; }
+.say__who { display: block; font-size: .75rem; margin-bottom: .15rem; color: #a3a3a3; } /* #a3a3a3 auf #262626 ca. 6.0:1 */
+.say__text { margin: 0; font-size: 1rem; color: var(--white); }
+.say--user { justify-self: end; background: var(--white); border-bottom-right-radius: .375rem; }
+.say--user .say__who { color: var(--muted); } /* #555 auf #fff 7.5:1 */
 .say--user .say__text { color: var(--ink); }
+.say--agent { justify-self: start; background: #262626; border-bottom-left-radius: .375rem; }
 .say__btns { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0 0; }
 /* Nur Anzeige, nicht klickbar */
-.fake-btn { display: inline-block; padding: .4rem .9rem; font-size: .875rem; font-weight: 500; border: 1px solid var(--white); color: var(--white); pointer-events: none; user-select: none; }
-.fake-btn--main { background: var(--accent-light); border-color: var(--accent-light); color: var(--dark); } /* 9.1:1 */
-.load { display: grid; gap: .4rem; }
-.load__label { margin: 0; font-size: .9375rem; color: #b5b5b5; }
-.load__track { display: block; height: 2px; background: #3a3a3a; overflow: hidden; }
-.load__bar { display: block; height: 100%; background: var(--white); transform-origin: 0 50%; }
-.svc { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .5rem; }
-.svc li { padding: .3rem .65rem; border: 1px solid #3a3a3a; font-size: .875rem; color: var(--white); }
+.fake-btn { display: inline-block; padding: .4rem 1rem; border-radius: 999px; font-size: .875rem; font-weight: 500; background: #3a3a3a; color: var(--white); pointer-events: none; user-select: none; }
+.fake-btn--main { background: var(--accent-light); color: var(--dark); } /* 9.1:1 */
 
-.demo__end { margin: 0; padding: 1.5rem 1.25rem; border-top: 1px solid #3a3a3a; font-size: clamp(1.375rem, 4.5vw, 2rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.2; color: var(--white); }
+/* Ladezeile und Dienste (nur Text) */
+.load { display: grid; justify-self: start; gap: .45rem; padding-left: .25rem; }
+.load__label { margin: 0; font-size: .875rem; color: #a3a3a3; } /* auf #111 ca. 7.5:1 */
+.load__track { display: block; width: 7rem; height: 4px; border-radius: 999px; background: #333; overflow: hidden; }
+.load__bar { display: block; height: 100%; border-radius: 999px; background: var(--white); transform-origin: 0 50%; }
+.svc { list-style: none; margin: 0; padding: 0 0 0 .25rem; display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+.svc li { font-size: .875rem; color: #d6d6d6; }
+
+/* Endsatz, Pause-Knopf, Statuszeile */
+.demo__end { margin: 0; padding: 1.75rem 0 0; font-size: clamp(1.375rem, 4.5vw, 2rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.2; color: var(--white); }
+.demo__ctrls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: 1.5rem; }
+.demo__ctrl { font: inherit; font-size: .875rem; font-weight: 500; border: 0; border-radius: 999px; padding: .4rem 1.1rem; min-width: 168px; min-height: 44px; background: var(--white); color: var(--dark); cursor: pointer; }
+.demo__ctrl:hover { background: #dcdcd8; }
+.demo__ctrl:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+.demo__status { margin: 0; font-size: .875rem; color: #a3a3a3; } /* #a3a3a3 auf #111 ca. 7.5:1 */
 
 @media (min-width: 768px) {
-  .demo { margin-bottom: 5.5rem; }
-  .stage { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: center; gap: 2rem; padding: 2.5rem 1.75rem; }
-  .agent { width: 13rem; height: 13rem; }
-  .demo__end { padding: 1.75rem; }
+  .assistent__lead { grid-column: 1 / span 7; margin-bottom: 0; }
+  .assistent__action { grid-column: 9 / -1; justify-self: end; align-self: end; margin-bottom: 0; }
+  .demo { margin-top: 5rem; }
+  .stage { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; }
+  .agent { width: 6rem; height: 6rem; }
+  .demo__end { padding-top: 2rem; }
 }
 @media (min-width: 1200px) {
-  .agent { width: 15rem; height: 15rem; }
+  .demo { grid-column: 1 / span 9; margin-top: 6rem; }
+  .stage { grid-template-columns: 8rem minmax(0, 1fr); gap: 2rem; }
+  .agent { width: 8rem; height: 8rem; }
+  .say { max-width: 28rem; }
 }
 
 /* Ablauf: nur wenn script.js .demo--anim setzt. Ohne JS bleibt alles sichtbar (Endbild). */
@@ -451,138 +455,3 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
   .agent__eye, .agent__pill, .agent__lid, .agent__smile { transition: none !important; }
 }
 @media print { .demo .demo__step, .demo .w, .demo .svc li { opacity: 1 !important; transform: none !important; } .demo__ctrl, .demo__status { display: none; } }
-
-/* ---------- Fassung 9b: Figur im dunklen Hero (Entscheid Lukas 19.11.: Hero dunkel wie das Referenzbild, Rest hell) ---------- */
-.hero--agent { display: block; min-height: 0; padding-top: calc(var(--nav-h) + 1px); }
-.hero--agent .hero__mark { position: relative; top: auto; left: auto; display: block; max-width: 1360px; margin: 0 auto; padding: .25rem var(--pad) 0; font-size: clamp(5.5rem, 30vw, 14rem); }
-.hero--agent .hero__content { padding-top: 2.5rem; padding-bottom: 4rem; row-gap: 3rem; align-items: center; }
-.hero--agent .hero__title { font-size: clamp(3rem, 12vw, 6.5rem); margin-bottom: 1.5rem; }
-.hero--agent .hero__lead { margin-bottom: 2rem; }
-.hero__text { min-width: 0; }
-/* Animation im Hero: dunkle Leiste statt heller */
-.hero__demo { margin: 0; border-color: #3a3a3a; }
-.hero__demo .demo__bar { background: transparent; border-bottom-color: #3a3a3a; }
-.hero__demo .demo__name { color: var(--white); }
-.hero__demo .demo__status { color: #a3a3a3; } /* #a3a3a3 auf #111 ca. 7.5:1 (Basisregel #555 gilt nur auf hell, auf #111 nur ca. 2.5:1) */
-.hero__demo .demo__ctrl { background: var(--white); color: var(--dark); border-color: var(--white); }
-.hero__demo .demo__ctrl:hover { background: var(--line); }
-.hero__demo .demo__ctrl:focus-visible { outline-color: var(--white); }
-.section--white .services { margin-bottom: 3rem; }
-@media (min-width: 768px) {
-  .hero--agent .hero__mark { font-size: min(22vw, 16rem); }
-  .hero--agent .hero__content { padding-top: 3rem; padding-bottom: 5rem; }
-  .hero--agent .hero__text { grid-column: 1 / span 10; }
-  .hero--agent .hero__lead { margin-bottom: 2rem; }
-  .hero__demo { grid-column: 1 / -1; margin: 0; }
-}
-@media (min-width: 1200px) {
-  .hero--agent { min-height: 100vh; }
-  .hero--agent .hero__mark { font-size: min(14vw, 16rem); }
-  .hero--agent .hero__content { padding-top: 3rem; padding-bottom: 5rem; }
-  .hero--agent .hero__content { align-items: start; }
-  .hero--agent .hero__text { grid-column: 1 / span 5; padding-top: 1rem; }
-  .hero--agent .hero__title { font-size: min(5vw, 5.75rem); }
-  .hero__demo { grid-column: 7 / -1; }
-  .hero__demo .stage { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
-  .hero__demo .agent { width: 12rem; height: 12rem; }
-}
-
-/* ---------- Fassung 9d: Glas-Foto zurück im Hero, Figur daneben (Entscheid Lukas 19.11.) ----------
-   Unter 1200 px: Foto oben (4:5 bzw. 3:2), Wortmarke darauf, darunter Claim und Figur auf #111.
-   Ab 1200 px (9e): Foto füllt den Hero, Claim links, Figur rechts daneben, Gesicht frei dazwischen. */
-.hero--foto { padding-top: 0; }
-.hero--foto .hero__media { display: block; }
-.hero--foto .hero__media img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 50%; }
-.hero--foto .hero__mark { position: absolute; z-index: 1; top: calc(var(--nav-h) + .25rem); left: var(--pad); max-width: none; margin: 0 0 0 -.05em; padding: 0; }
-.hero--foto .hero__demo { background: var(--dark); }
-@media (min-width: 768px) {
-  .hero--foto .hero__media img { aspect-ratio: 3 / 2; }
-}
-@media (min-width: 1200px) {
-  /* Fassung 9e (Entscheid Lukas 19.11.): Foto füllt den ganzen Hero wie in 7d, kein Band.
-     Claim unten links, Figur unten rechts. Das Gesicht liegt im Bild rechts der Mitte;
-     object-position 100 % schiebt es so weit wie möglich nach links, die Figur ist kompakt
-     (5 Spalten) und steht ganz rechts, der Claim endet vor dem Gesicht. Beides bleibt frei. */
-  .hero--foto { display: flex; align-items: flex-end; min-height: 100vh; }
-  .hero--foto .hero__media { position: absolute; inset: 0; }
-  .hero--foto .hero__media img { width: 100%; height: 100%; aspect-ratio: auto; max-height: none; object-fit: cover; object-position: 100% 40%; }
-  .hero--foto .hero__mark { left: max(var(--pad), calc((100vw - 1360px) / 2 + var(--pad))); }
-  .hero--foto .hero__content { width: 100%; padding-top: calc(var(--nav-h) + 1.5rem); padding-bottom: 2.5rem; align-items: end; }
-  .hero--foto .hero__text { grid-column: 1 / span 4; padding-top: 0; }
-  .hero--foto .hero__title { font-size: min(4.2vw, 4.75rem); }
-  .hero--foto .hero__lead { max-width: 24rem; }
-  .hero--foto .hero__demo { grid-column: 9 / -1; margin-right: calc(-1 * var(--pad) / 2); }
-  .hero--foto .hero__demo .stage { grid-template-columns: 5rem minmax(0, 1fr); align-items: start; gap: 1rem; padding: 1.25rem 1rem; }
-  .hero--foto .hero__demo .agent { width: 5rem; height: 5rem; }
-  .hero--foto .hero__demo .demo__end { font-size: 1.375rem; }
-}
-
-/* ---------- Fassung 9f (Web-Planer/Lukas 19.11.) ----------
-   1) Live-Demo ohne Rahmen, Leiste und Kasten: links die Figur, rechts der Chat zwischen Lukas und once.
-      Weiche Formen: runde Sprechblasen, Pillen statt Rechtecke. Pause-Knopf bleibt (WCAG 2.2.2), ohne Leiste darunter.
-   2) Ab 1200 px: Foto links verankert (object-position 0 %). Der Kopf beginnt im Bild bei ca. 49 % der Breite,
-      bei Cover-Skalierung über die Höhe also bei ca. 104vh. Claim und Figur liegen zusammen links davon
-      (Inhaltsbreite höchstens 96vh), Gesicht, Haar und Ohr liegen nie unter der Figur. */
-.demo, .hero__demo, .hero--foto .hero__demo { border: 0; background: transparent; }
-.stage { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: start; gap: 1rem; padding: 0; }
-.stage__agent { justify-content: flex-start; padding-top: .25rem; }
-.agent, .hero__demo .agent, .hero--foto .hero__demo .agent { width: 4.5rem; height: 4.5rem; }
-.stage__talk { gap: .75rem; }
-
-.say { padding: .7rem 1rem; border: 0; border-radius: 1.25rem; line-height: 1.45; max-width: 26rem; }
-.say__who { font-size: .75rem; margin-bottom: .15rem; color: #a3a3a3; } /* #a3a3a3 auf #262626 ca. 6.0:1 */
-.say--user { justify-self: end; background: var(--white); border-bottom-right-radius: .375rem; }
-.say--user .say__who { color: var(--muted); } /* #555 auf #fff 7.5:1 */
-.say--agent { justify-self: start; background: #262626; border-bottom-left-radius: .375rem; }
-.say__text { font-size: 1rem; }
-
-.load { justify-self: start; gap: .45rem; padding-left: .25rem; }
-.load__label { font-size: .875rem; color: #a3a3a3; }
-.load__track { width: 7rem; height: 4px; border-radius: 999px; background: #333; }
-.load__bar { border-radius: 999px; }
-
-.svc { gap: .25rem .9rem; padding-left: .25rem; }
-.svc li { padding: 0; border: 0; font-size: .875rem; color: #d6d6d6; }
-
-.fake-btn { border: 0; border-radius: 999px; padding: .4rem 1rem; background: #3a3a3a; color: var(--white); }
-.fake-btn--main { background: var(--accent-light); color: var(--dark); }
-
-.demo__end { padding: 1.75rem 0 0; border: 0; }
-.demo__ctrls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: 1.5rem; }
-.demo__status { margin: 0; }
-.demo__ctrl, .hero__demo .demo__ctrl { border: 0; border-radius: 999px; padding: .4rem 1.1rem; min-width: 168px; min-height: 44px; background: var(--white); color: var(--dark); }
-.hero__demo .demo__ctrl:hover { background: #dcdcd8; color: var(--dark); }
-.hero__demo .demo__ctrl:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
-
-@media (min-width: 768px) {
-  .stage, .hero__demo .stage { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; padding: 0; align-items: start; }
-  .agent, .hero__demo .agent { width: 6rem; height: 6rem; }
-  .demo__end { padding: 2rem 0 0; }
-}
-
-@media (min-width: 1200px) {
-  .hero--foto .hero__media img { object-position: 0% 40%; }
-  .hero--foto .hero__content {
-    max-width: none; margin: 0;
-    width: min(100%, max(96vh, 45vw));
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    column-gap: 2.5rem;
-    padding-left: max(var(--pad), calc((100vw - 1360px) / 2 + var(--pad)));
-    padding-right: 0;
-  }
-  .hero--foto .hero__text { grid-column: 1; }
-  .hero--foto .hero__title { font-size: min(4.2vw, 6.2vh, 4.75rem); }
-  .hero--foto .hero__demo { grid-column: 2; margin: 0; }
-  .hero--foto .hero__demo .stage { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; padding: 0; }
-  .hero--foto .hero__demo .agent { width: 4.5rem; height: 4.5rem; }
-  .hero--foto .hero__demo .say { max-width: 100%; }
-  .hero--foto .hero__demo .demo__end { font-size: 1.375rem; padding-top: 1.5rem; }
-}
-
-/* 9f: Wortmarke ab 1200 px an der Höhe ausgerichtet, damit Figur und Chat nie in die Wortmarke laufen
-   (auch bei niedrigen Fenstern, z. B. 1280×680). Der Inhalt beginnt unter der Wortmarke. */
-@media (min-width: 1200px) {
-  .hero--foto .hero__mark { font-size: min(13vw, 18vh, 16rem); }
-  .hero--foto .hero__content { padding-top: calc(var(--nav-h) + 18vh + 1.5rem); }
-  .hero--foto .hero__action { display: block; text-align: left; grid-column: auto; justify-self: start; }
-}
