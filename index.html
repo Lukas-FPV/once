@@ -44,7 +44,7 @@
       </picture>
       <p class="hero__mark" aria-hidden="true">once</p>
       <div class="wrap grid hero__content">
-        <p class="label hero__label">• Persönlicher Assistent</p>
+        <p class="label hero__label"><span class="dot" aria-hidden="true">•</span> Persönlicher Assistent</p>
         <h1 class="hero__title" id="hero-title">Einmal einrichten.<br>Für alles.</h1>
         <p class="hero__lead">Ein Assistent, der deine Dienste kennt und verbindet. Du richtest ihn einmal ein, danach arbeitet er dort, wo du ohnehin arbeitest.</p>
         <div class="hero__action">
@@ -56,10 +56,47 @@
     <!-- Funktionen: hell -->
     <section class="section section--white" id="funktionen" data-theme="light" aria-labelledby="funktionen-title">
       <div class="wrap grid">
-        <header class="section__head reveal">
-          <p class="label">• Funktionen</p>
-          <h2 class="section__title" id="funktionen-title">Was once für dich tut.</h2>
+        <header class="section__head rule reveal">
+          <p class="label"><span class="dot" aria-hidden="true">•</span> Funktionen</p>
+          <h2 class="section__title" id="funktionen-title">Was once für <em class="hl">dich</em> tut.</h2>
         </header>
+        <!-- Verbindungs-Grafik: once in der Mitte, die drei Funktionen als Knoten. Bewusst ohne Dienste/Logos (Entscheid 19.11.). Rein dekorativ, Inhalt steht in der Liste darunter. -->
+        <figure class="graph reveal" aria-hidden="true">
+          <svg class="graph__svg graph__svg--wide" viewBox="0 0 1000 400" focusable="false">
+            <path class="graph__line" pathLength="1" d="M430 160 H190" style="--d:0"/>
+            <path class="graph__line" pathLength="1" d="M570 160 H810" style="--d:1"/>
+            <path class="graph__line" pathLength="1" d="M500 230 V298" style="--d:2"/>
+            <circle class="graph__node" cx="190" cy="160" r="7"/>
+            <circle class="graph__node" cx="810" cy="160" r="7"/>
+            <circle class="graph__node" cx="500" cy="298" r="7"/>
+            <circle class="graph__hub" cx="500" cy="160" r="70"/>
+            <text class="graph__hubtext" x="500" y="174" text-anchor="middle">once</text>
+            <text class="graph__num" x="190" y="104" text-anchor="middle">01</text>
+            <text class="graph__label" x="190" y="134" text-anchor="middle">Einmal verbinden</text>
+            <text class="graph__num" x="810" y="104" text-anchor="middle">02</text>
+            <text class="graph__label" x="810" y="134" text-anchor="middle">In deinen Worten fragen</text>
+            <text class="graph__num" x="500" y="344" text-anchor="middle">03</text>
+            <text class="graph__label" x="500" y="374" text-anchor="middle">Du behältst die Kontrolle</text>
+          </svg>
+          <svg class="graph__svg graph__svg--narrow" viewBox="0 0 360 420" focusable="false">
+            <path class="graph__line" pathLength="1" d="M180 156 V104" style="--d:0"/>
+            <path class="graph__line" pathLength="1" d="M144 236 L84 300" style="--d:1"/>
+            <path class="graph__line" pathLength="1" d="M216 236 L276 300" style="--d:2"/>
+            <circle class="graph__node" cx="180" cy="104" r="6"/>
+            <circle class="graph__node" cx="84" cy="300" r="6"/>
+            <circle class="graph__node" cx="276" cy="300" r="6"/>
+            <circle class="graph__hub" cx="180" cy="204" r="50"/>
+            <text class="graph__hubtext" x="180" y="214" text-anchor="middle">once</text>
+            <text class="graph__num" x="180" y="44" text-anchor="middle">01</text>
+            <text class="graph__label" x="180" y="80" text-anchor="middle">Einmal verbinden</text>
+            <text class="graph__num" x="84" y="336" text-anchor="middle">02</text>
+            <text class="graph__label" x="84" y="362" text-anchor="middle">In deinen</text>
+            <text class="graph__label" x="84" y="384" text-anchor="middle">Worten fragen</text>
+            <text class="graph__num" x="276" y="336" text-anchor="middle">03</text>
+            <text class="graph__label" x="276" y="362" text-anchor="middle">Du behältst</text>
+            <text class="graph__label" x="276" y="384" text-anchor="middle">die Kontrolle</text>
+          </svg>
+        </figure>
         <ol class="features">
           <li class="feature reveal" style="--i:0">
             <span class="feature__num">01</span>
@@ -80,12 +117,12 @@
       </div>
     </section>
 
-    <!-- Über once: hell, zweigeteilt ab 1200 px -->
+    <!-- Über once: hell (#f4f4f2) laut Briefing Punkt 4, zweigeteilt ab 1200 px -->
     <section class="section" id="ueber" data-theme="light" aria-labelledby="ueber-title">
       <div class="wrap grid">
-        <header class="section__head section__head--split reveal">
-          <p class="label">• Über once</p>
-          <h2 class="section__title" id="ueber-title">Gute Werkzeuge sind leise.</h2>
+        <header class="section__head section__head--split rule reveal">
+          <p class="label"><span class="dot" aria-hidden="true">•</span> Über once</p>
+          <h2 class="section__title" id="ueber-title">Gute Werkzeuge sind <em class="hl">leise.</em></h2>
         </header>
         <div class="about reveal">
           <p class="about__quote">once soll dir Arbeit abnehmen, nicht neue schaffen: wenige Einstellungen, klare Rückfragen, keine Überraschungen.</p>
@@ -94,12 +131,12 @@
       </div>
     </section>
 
-    <!-- Warteliste: hell -->
-    <section class="section section--white" id="warteliste" data-theme="light" aria-labelledby="warteliste-title">
+    <!-- Warteliste: dunkel (#111111), Entscheid Lukas 19.11. 08:45 -->
+    <section class="section section--dark" id="warteliste" data-theme="dark" aria-labelledby="warteliste-title">
       <div class="wrap grid">
-        <header class="section__head reveal">
-          <p class="label">• Warteliste</p>
-          <h2 class="section__title" id="warteliste-title">Bald dabei sein.</h2>
+        <header class="section__head rule reveal">
+          <p class="label"><span class="dot" aria-hidden="true">•</span> Warteliste</p>
+          <h2 class="section__title" id="warteliste-title"><em class="hl">Bald</em> dabei sein.</h2>
         </header>
         <p class="soon-block reveal">Die Warteliste öffnet in Kürze.</p>
         <div class="cta reveal" style="--i:1">
@@ -112,7 +149,7 @@
   <!-- Kontakt/Footer: dunkel. Keine Mail/Telefon (Entscheid Lukas 19.11.): Anfragen laufen über Lukas. -->
   <footer class="footer" id="kontakt" data-theme="dark">
     <div class="wrap grid">
-      <p class="label footer__label">• Kontakt</p>
+      <p class="label footer__label"><span class="dot" aria-hidden="true">•</span> Kontakt</p>
       <p class="footer__big reveal" aria-hidden="true">once</p>
       <div class="footer__col reveal">
         <h2 class="footer__title">Kontakt</h2>
@@ -131,6 +168,7 @@
     </div>
   </footer>
 
+  <div class="cursor" aria-hidden="true"></div>
   <script src="script.js" defer></script>
 </body>
 </html>

@@ -86,6 +86,40 @@
     window.addEventListener("beforeprint", function () { items.forEach(function (el) { el.classList.add("is-in"); }); });
   }
 
+
+  // Fassung 7: Wortmarke im Hero wird beim Scrollen kleiner, ruhig per rAF
+  var mark = document.querySelector(".hero__mark");
+  var heroEl = document.querySelector(".hero");
+  if (mark && heroEl && !reduce) {
+    var ticking = false;
+    var upd = function () {
+      ticking = false;
+      var p = Math.min(1, Math.max(0, window.scrollY / Math.max(1, heroEl.offsetHeight * .6)));
+      mark.style.setProperty("--p", p.toFixed(3));
+    };
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  }
+
+  // Fassung 7: Cursor-Kreis nur mit feiner Maus, nicht auf Touch, nicht bei reduzierter Bewegung
+  var cur = document.querySelector(".cursor");
+  if (cur && !reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document.documentElement.classList.add("has-cursor");
+    var tx = 0, ty = 0, cx = 0, cy = 0, run = false;
+    var loop = function () {
+      cx += (tx - cx) * .25; cy += (ty - cy) * .25;
+      cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
+      if (Math.abs(tx - cx) + Math.abs(ty - cy) > .3) requestAnimationFrame(loop); else run = false;
+    };
+    document.addEventListener("mousemove", function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!cur.classList.contains("is-on")) { cx = tx; cy = ty; cur.classList.add("is-on"); }
+      cur.classList.toggle("is-link", !!(e.target.closest && e.target.closest("a, button")));
+      if (!run) { run = true; requestAnimationFrame(loop); }
+    }, { passive: true });
+    document.addEventListener("mouseleave", function () { cur.classList.remove("is-on"); });
+  }
+
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();

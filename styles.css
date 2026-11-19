@@ -17,6 +17,7 @@
   --muted: #555555;        /* auf --light 6.8:1 */
   --muted-dark: #a3a3a3;   /* auf --dark 7.5:1 */
   --accent: #3e5c6b;       /* auf --light 6.5:1 */
+  --accent-light: #9fb8c4; /* auf --dark 9.1:1 */
   --line: #dcdcd8;
   --line-dark: #2e2e2e;
 
@@ -308,3 +309,96 @@ body.menu-open .nav.is-over .logo { visibility: visible; }
 .legal__body p + p { margin-top: .75rem; }
 .legal__body a { color: var(--accent); }
 .legal__meta { margin-top: 3rem; color: var(--muted); font-size: .875rem; }
+
+
+/* ---------- Fassung 7: mehr Persönlichkeit ---------- */
+
+/* 1. Typografie: grösser, dichter, ein Wort im Akzent */
+.section__title { font-size: clamp(3rem, 13vw, 10.5rem); line-height: .9; letter-spacing: -.055em; }
+@media (min-width: 1200px) { .section__head--split .section__title { font-size: min(8.5vw, 9rem); } }
+.hl { font-style: normal; color: var(--accent); }
+.section--dark .hl, .footer .hl { color: var(--accent-light); }
+.dot { color: var(--accent); }
+.section--dark .dot, .footer .dot, .hero .dot { color: var(--accent-light); }
+
+/* 2. Über once dunkel: harter Schnitt, kein Verlauf */
+.section--dark .about__quote { color: var(--white); border-left-color: var(--accent-light); }
+.section--dark .about p + p { color: var(--muted-dark); }
+
+/* 4. Wiederkehrende Linie: zieht sich beim Einblenden über die volle Breite */
+.rule { position: relative; padding-top: 1.5rem; }
+.rule::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--ink); transform-origin: left center;
+}
+.section--dark .rule::before { background: var(--muted-dark); }
+.has-reveal .rule.reveal::before { transform: scaleX(0); transition: transform .9s cubic-bezier(.2, .7, .2, 1) .1s; }
+.has-reveal .rule.reveal.is-in::before { transform: scaleX(1); }
+@media (min-width: 1200px) { .section__head--split.rule::before { right: calc(-100% - var(--gap)); } }
+.section__head--split.rule { overflow: visible; }
+
+/* 3. Wortmarke im Hero: beim Scrollen kleiner und leicht nach oben (Wert aus JS, --p 0..1) */
+.hero__mark { transform-origin: left top; will-change: transform; transform: translate3d(0, calc(var(--p, 0) * -6vh), 0) scale(calc(1 - var(--p, 0) * .22)); }
+
+/* 6. Funktionen: Nummer wechselt zum Akzent, Karte hebt sich um 2 px */
+.feature__num { color: var(--ink); transition: color .25s ease; }
+.feature { transition: translate .25s ease; }
+.has-reveal .feature.reveal { transition: opacity .55s ease calc(var(--i, 0) * 90ms), transform .55s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 90ms), translate .25s ease 0s; }
+.feature:hover, .feature:focus-within { translate: 0 -2px; }
+.feature:hover .feature__num, .feature:focus-within .feature__num { color: var(--accent); }
+
+/* 5. Cursor: nur Desktop mit Maus, Systemzeiger bleibt sichtbar */
+.cursor { display: none; }
+.has-cursor .cursor {
+  display: block; position: fixed; left: 0; top: 0; z-index: 200;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+  border: 1.5px solid #ffffff; mix-blend-mode: difference;
+  pointer-events: none; opacity: 0;
+  transition: width .25s ease, height .25s ease, margin .25s ease, opacity .2s ease;
+}
+.has-cursor .cursor.is-on { opacity: 1; }
+.has-cursor .cursor.is-link { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__mark { transform: none !important; }
+  .rule::before { transform: none !important; }
+  .feature:hover, .feature:focus-within { translate: none !important; }
+  .cursor { display: none !important; }
+}
+@media print { .rule::before { transform: none !important; } .cursor { display: none !important; } }
+
+/* ---- Fassung 7b: Verbindungs-Grafik ---- */
+.graph { margin: 0 0 4.5rem; }
+.graph__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
+.graph__svg--wide { display: none; }
+.graph__svg--narrow { max-width: 360px; margin: 0 auto; }
+@media (min-width: 768px) {
+  .graph { margin-bottom: 5.5rem; }
+  .graph__svg--narrow { display: none; }
+  .graph__svg--wide { display: block; max-width: 1000px; margin: 0 auto; }
+}
+.graph__line { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.graph__node { fill: var(--accent); }
+.graph__hub { fill: var(--ink); }
+.graph__hubtext { fill: var(--white); font-weight: 600; letter-spacing: -.04em; font-size: 46px; }
+.graph__svg--narrow .graph__hubtext { font-size: 30px; }
+.graph__num { fill: var(--accent); font-weight: 500; font-size: 20px; }
+.graph__label { fill: var(--ink); font-weight: 600; letter-spacing: -.01em; font-size: 24px; }
+.graph__svg--narrow .graph__num { font-size: 15px; }
+.graph__svg--narrow .graph__label { font-size: 17px; }
+/* Linien ziehen sich beim Einblenden, nacheinander */
+.has-reveal .graph .graph__line { stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1) calc(.25s + var(--d) * .18s); }
+.has-reveal .graph.is-in .graph__line { stroke-dashoffset: 0; }
+.has-reveal .graph .graph__node { opacity: 0; transition: opacity .3s ease calc(.9s + var(--d, 0) * .18s); }
+.has-reveal .graph.is-in .graph__node { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .graph .graph__line { stroke-dashoffset: 0 !important; transition: none !important; }
+  .graph .graph__node { opacity: 1 !important; }
+}
+@media print { .graph .graph__line { stroke-dashoffset: 0 !important; } .graph .graph__node { opacity: 1 !important; } }
+
+/* 7d: Warteliste dunkel (Entscheid Lukas 19.11., 08:45) */
+.section--dark .btn { background: var(--white); color: var(--dark); }
+.section--dark .btn:hover, .section--dark .btn:focus-visible { background: var(--accent-light); color: var(--dark); }
+/* Warteliste und Kontakt sind beide dunkel: feine Linie trennt sie */
+.footer { border-top: 1px solid #3a3a3a; }
