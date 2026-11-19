@@ -26,7 +26,7 @@
   if (mq.addEventListener) mq.addEventListener("change", onMq); else if (mq.addListener) mq.addListener(onMq);
 
   // Navigation: Rand nach dem Scrollen, hell/dunkel je nach Abschnitt darunter
-  var media = document.querySelector(".hero__media");
+  var media = document.querySelector(".hero");
   var themed = Array.prototype.slice.call(document.querySelectorAll("[data-theme]"));
   function onScroll() {
     nav.classList.toggle("is-scrolled", window.scrollY > 8);
@@ -35,7 +35,7 @@
       var r = themed[i].getBoundingClientRect();
       if (r.top <= y && r.bottom > y) { dark = themed[i].getAttribute("data-theme") === "dark"; break; }
     }
-    // Über dem Hero-Foto: Leiste durchsichtig
+    // Über dem dunklen Hero: Leiste durchsichtig
     if (media) { var m = media.getBoundingClientRect(); over = m.top <= 2 && m.bottom > nav.offsetHeight; }
     nav.classList.toggle("is-dark", dark);
     nav.classList.toggle("is-over", over);
@@ -118,6 +118,89 @@
       if (!run) { run = true; requestAnimationFrame(loop); }
     }, { passive: true });
     document.addEventListener("mouseleave", function () { cur.classList.remove("is-on"); });
+  }
+
+  // Fassung 9: Agent-Figur. Läuft einmal (~16 s), wenn sichtbar. Ein Zeitgeber t steuert alles,
+  // Pause hält t an. Reduzierte Bewegung oder ohne JS: Endbild aus dem HTML (Figur freundlich, alles sichtbar), kein Knopf.
+  var demo = document.getElementById("demo");
+  if (demo && !reduce && "IntersectionObserver" in window && window.requestAnimationFrame) {
+    var END = 16000;
+    var steps = demo.querySelectorAll(".demo__step");
+    var words = demo.querySelectorAll(".w");
+    var svcs = demo.querySelectorAll(".svc li");
+    var bar = demo.querySelector(".load__bar");
+    var agent = demo.querySelector(".agent");
+    var head = demo.querySelector(".agent__head");
+    var face = demo.querySelector(".agent__face");
+    var ctrl = demo.querySelector(".demo__ctrl");
+    var status = demo.querySelector(".demo__status");
+    var stepAt = [600, 3600, 6000, 9200, 13400];          // Schritte 1–5 (ms)
+    var t = 0, last = 0, paused = false, done = false, running = false;
+    var pose = { x: -30, y: 0, r: 0 };                   // Blick/Drehung, weich nachgeführt
+    var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+    var ease = function (v) { return v * v * (3 - 2 * v); };
+    var mood = function (t) {
+      if (t < 400) return "neutral";
+      if (t < 3600) return "attentive";                   // 1 aufmerksam, dreht sich zum Nutzer
+      if (t < 6000) return "thinking";                    // 2 nachdenklich
+      if (t < 9200) return "neutral";                     // 3 Verbindung
+      if (t < 12800) return "ask";                        // 4 Rückfrage
+      return "friendly";                                  // 5 fertig
+    };
+    var target = function (m, t) {
+      var sway = Math.sin(t / 650) * 6 * (t < 12800 ? 1 : 0); // sanftes Kippen, max. 12 Grad mit Neigung
+      if (m === "neutral" && t < 400) return { x: -30, y: 0, r: -6 };
+      if (m === "attentive") return { x: 0, y: -4, r: sway * .5 };
+      if (m === "thinking") return { x: 22, y: -10, r: 8 + sway * .3 };
+      if (m === "neutral") return { x: Math.sin(t / 500) * 14, y: 0, r: sway };
+      if (m === "ask") return { x: -4, y: 6, r: -12 };
+      return { x: 0, y: 0, r: 0 };
+    };
+    var render = function (dt) {
+      var m = mood(t);
+      if (agent.getAttribute("data-mood") !== m) agent.setAttribute("data-mood", m);
+      var g = target(m, t), k = dt ? 1 - Math.pow(.004, dt / 1000) : 1;
+      pose.x += (g.x - pose.x) * k; pose.y += (g.y - pose.y) * k; pose.r += (g.r - pose.r) * k;
+      // Nicken: Kugel kippt einmal nach unten und zurück (13.2–14.0 s)
+      var n = t > 13200 && t < 14000 ? Math.sin(Math.PI * (t - 13200) / 800) : 0;
+      head.style.transform = "translateY(" + (n * 6).toFixed(2) + "px) rotate(" + pose.r.toFixed(2) + "deg)";
+      face.style.transform = "translate(" + pose.x.toFixed(2) + "px," + (pose.y + n * 12).toFixed(2) + "px)";
+      for (var i = 0; i < steps.length; i++) steps[i].classList.toggle("is-on", t >= stepAt[i]);
+      for (var j = 0; j < words.length; j++) words[j].classList.toggle("is-on", t >= 900 + j * 330);
+      for (var s = 0; s < svcs.length; s++) svcs[s].classList.toggle("is-on", t >= 6200 + s * 550);
+      bar.style.transform = "scaleX(" + ease(clamp((t - 3800) / 2000)).toFixed(3) + ")";
+    };
+    var label = function () {
+      ctrl.textContent = done ? "Animation nochmal abspielen" : (paused ? "Animation fortsetzen" : "Animation pausieren");
+      status.textContent = done ? "Animation beendet" : (paused ? "Animation pausiert" : "Animation läuft");
+    };
+    var frame = function (now) {
+      var dt = Math.min(100, now - last); last = now;
+      if (!paused) {
+        t = Math.min(END, t + dt);
+        render(dt);
+        if (t >= END) { done = true; running = false; head.style.transform = ""; face.style.transform = ""; label(); return; }
+      }
+      requestAnimationFrame(frame);
+    };
+    var start = function () {
+      t = 0; done = false; paused = false; pose = { x: -30, y: 0, r: -6 };
+      demo.classList.remove("demo--paused"); render(0); label();
+      if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); }
+    };
+    demo.classList.add("demo--anim");
+    render(0);
+    ctrl.hidden = false; status.hidden = false; label();
+    ctrl.addEventListener("click", function () {
+      if (done) { start(); return; }
+      paused = !paused;
+      demo.classList.toggle("demo--paused", paused);
+      label();
+    });
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { io.disconnect(); start(); }
+    }, { threshold: .35 });
+    io.observe(demo);
   }
 
   var year = document.getElementById("year");
